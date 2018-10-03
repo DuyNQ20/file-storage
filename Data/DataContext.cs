@@ -18,5 +18,7 @@ namespace FileStorage.Data
         }
 
         public DbSet<Country> Countries { get; set; }
+
+        public DbSet<FileStorage.Models.FileSystem> FileStorage { get; set; }
     }
 }
