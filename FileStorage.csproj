@@ -5,6 +5,7 @@
     <ApplicationIcon />
     <OutputType>Exe</OutputType>
     <StartupObject />
+    <UserSecretsId>2a59b46f-e825-43c5-85da-ebdef7a3b25e</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,23 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180810095335_UpdateLanguageModel.cs" />
-    <Compile Remove="Migrations\20180810095335_UpdateLanguageModel.Designer.cs" />
-    <Compile Remove="Migrations\20180810100015_UpdateLanguageModel.cs" />
-    <Compile Remove="Migrations\20180810100015_UpdateLanguageModel.Designer.cs" />
-    <Compile Remove="Migrations\20180813012216_CreateLanguageModel.cs" />
-    <Compile Remove="Migrations\20180813012216_CreateLanguageModel.Designer.cs" />
-    <Compile Remove="Migrations\20180813014015_CreateLanguageModel.cs" />
-    <Compile Remove="Migrations\20180813014015_CreateLanguageModel.Designer.cs" />
-    <Compile Remove="Migrations\20180813014915_CreateLanguageModel.cs" />
-    <Compile Remove="Migrations\20180813014915_CreateLanguageModel.Designer.cs" />
-    <Compile Remove="Migrations\20180813015513_CreateLanguageModel.cs" />
-    <Compile Remove="Migrations\20180813015513_CreateLanguageModel.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="logs\" />
-    <Folder Include="Migrations\" />
+    <Folder Include="File\" />
   </ItemGroup>
 
   <ItemGroup>

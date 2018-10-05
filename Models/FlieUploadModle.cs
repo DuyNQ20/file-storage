@@ -20,11 +20,12 @@ namespace FileStorage.Models
                 operation.Parameters.Clear();
                 operation.Parameters.Add(new NonBodyParameter
                 {
-                    Name = "uploadedFile",
+                    Name = "file",
                     In = "formData",
                     Description = "Upload File",
                     Required = true,
-                    Type = "file"
+                    Type = "file",
+                    //Items = new PartialSchema{ Type = "file" }
                 });
                 operation.Consumes.Add("multipart/form-data");
             }

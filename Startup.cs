@@ -29,8 +29,8 @@ namespace FileStorage
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<DataContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-            // options.UseSqlite("Data Source=Catalog.db"));
+               //   options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.ConfigureErrorWrappingMiddleware(options => {
                 options.ConfigureSerializer(serOpts => {
                     serOpts.ContractResolver = new CamelCasePropertyNamesContractResolver();
