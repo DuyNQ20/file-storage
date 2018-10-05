@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FileStorage.Models
 {
-    public class FileSystem
+    public class Files
     {
         [System.ComponentModel.DataAnnotations.Key]
         //[DatabaseGenerated(DatabaseGeneratedOption.None)]

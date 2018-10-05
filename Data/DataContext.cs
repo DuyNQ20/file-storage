@@ -14,12 +14,12 @@ namespace FileStorage.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FileSystem>()
+            modelBuilder.Entity<Files>()
             .HasKey(c => new { c.ID });
-            modelBuilder.Entity<FileSystem>().ToTable("FileSystem");
+            modelBuilder.Entity<Files>().ToTable("Files");
         }
         
 
-        public DbSet<FileStorage.Models.FileSystem> FileSystem { get; set; }
+        public DbSet<FileStorage.Models.Files> Files { get; set; }
     }
 }
