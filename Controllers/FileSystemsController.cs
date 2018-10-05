@@ -188,5 +188,33 @@ namespace FileStorage.Controllers
         {
             return _context.FileSystem.Any(e => e.ID == id);
         }
+
+        /// <summary>
+        /// get file lấy theo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public ActionResult<FileSystemView> GetById(int id)
+        {
+            var item = _context.FileSystem.Find(id);
+            FileSystemView item2 = new FileSystemView()
+            {
+                ID = item.ID,
+                Name = item.Name,
+                Size = item.Size,
+                UploadedBy = item.UploadedBy,
+                UploadedAt = item.UploadedAt,
+                Url = item.Url
+            };
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+
+            return item2;
+
+        }
     }
 }
