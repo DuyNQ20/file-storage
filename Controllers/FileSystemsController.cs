@@ -145,19 +145,21 @@ namespace FileStorage.Controllers
                     }
                     filePath = Path.Combine(filePath, formFile.FileName);
                     var index = filePath.LastIndexOf(".");
+                    string hashString = null;
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await formFile.CopyToAsync(stream);
+                        
                         // Thêm vào CSDL
                          if (System.IO.File.Exists(filePath))
                         {
                             stream.Close();
-                            string hashString = ComputeHashSHA(filePath).Replace("-","");
+                            hashString = ComputeHashSHA(filePath).Replace("-","");
                         }
-                        _context.FileSystem.Add(new FileSystem() { Name = formFile.FileName, Extention = filePath.Substring(index + 1), Size = formFile.Length, UploadedAt = DateTime.Now, Url = filePath });
+                        _context.FileSystem.Add(new FileSystem() { Name = formFile.FileName, Hash = hashString, Extention = filePath.Substring(index + 1), Size = formFile.Length, UploadedAt = DateTime.Now, Url = filePath });
                         await _context.SaveChangesAsync();
                     }
-                    result.Add(new FileSystem() { Name = formFile.FileName, Extention = filePath.Substring(index + 1), Size = formFile.Length, UploadedAt = DateTime.Now, Url = filePath });
+                    result.Add(new FileSystem() { Name = formFile.FileName, Hash = hashString, Extention = filePath.Substring(index + 1), Size = formFile.Length, UploadedAt = DateTime.Now, Url = filePath });
 
 
 
@@ -178,7 +180,39 @@ namespace FileStorage.Controllers
             }
         }
         [HttpGet("DownloadFile")]
-        public HttpResponseMessage DownloadFile([FromQuery]string fileName)
+        //public HttpResponseMessage GetFile(string fileName)
+        //{
+        //    //Create HTTP Response.
+        //    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+
+        //    //Set the File Path.
+        //    string filePath = "File/20181004/" + fileName;
+
+        //    //Check whether File exists.
+        //    if (!System.IO.File.Exists(filePath))
+        //    {
+        //        //Throw 404 (Not Found) exception if File not found.
+        //        new HttpResponseMessage(HttpStatusCode.NotFound);
+        //    }
+
+        //    //Read the File into a Byte Array.
+        //    byte[] bytes = System.IO.File.ReadAllBytes(filePath);
+
+        //    //Set the Response Content.
+        //    response.Content = new ByteArrayContent(bytes);
+
+        //    //Set the Response Content Length.
+        //    response.Content.Headers.ContentLength = bytes.LongLength;
+
+        //    //Set the Content Disposition Header Value and FileName.
+        //    response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+        //    response.Content.Headers.ContentDisposition.FileName = fileName;
+
+        //    //Set the File Content Type.
+        //    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+        //    return response;
+        //}
+        public HttpResponseMessage DownloadFile(string fileName)
         {
             if (!string.IsNullOrEmpty(fileName))
             {
