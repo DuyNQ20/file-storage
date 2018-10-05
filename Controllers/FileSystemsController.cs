@@ -11,6 +11,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace FileStorage.Controllers
 {
@@ -120,6 +122,7 @@ namespace FileStorage.Controllers
 
         //    return Ok(fileSystem);
         //}
+
         [HttpPost("UploadFiles")]
         [Produces("application/json")]
         public async Task<IActionResult> Post([FromHeader]List<IFormFile> files)
@@ -164,7 +167,7 @@ namespace FileStorage.Controllers
             return Ok(result);
         }
 
-        public string ComputeHashSHA(string filename)
+        private string ComputeHashSHA(string filename)
         {
             using (var sha = SHA1.Create())
             {
@@ -174,16 +177,28 @@ namespace FileStorage.Controllers
                 }
             }
         }
-        [HttpPost("DownloadFile")]
-        public void Down([FromForm]string address, [FromForm]string fileName)
+        [HttpGet("DownloadFile")]
+        public HttpResponseMessage DownloadFile([FromQuery]string fileName)
         {
-            string myStringWebResource = null;
-            // Create a new WebClient instance.
-            WebClient myWebClient = new WebClient();
-            // Concatenate the domain with the Web resource filename.
-            myStringWebResource = address + "\\" + fileName;
-            myWebClient.DownloadFile(myStringWebResource, fileName);
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                string filePath = "File";
+                string fullPath = filePath + "/20181004/" + fileName;
+                if (System.IO.File.Exists(fullPath))
+                {
+
+                    HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+                    var fileStream = new FileStream(fullPath, FileMode.Open);
+                    response.Content = new StreamContent(fileStream);
+                    response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                    response.Content.Headers.ContentDisposition.FileName = fileName;
+                    return response;
+                }
+            }
+            return new HttpResponseMessage(HttpStatusCode.NotFound);
         }
+
         private bool FileSystemExists(int id)
         {
             return _context.FileSystem.Any(e => e.ID == id);
